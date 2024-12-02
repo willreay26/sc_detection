@@ -10,11 +10,11 @@ export default function SideBar() {
         <div className="w-64 bg-primary text-primaryText h-screen p-4">
             <h1 className="text-xl font-bold mb-6">Combining metadata and image in AI model for diagnostic imaging</h1>
             <nav>
-                <ul>
-                    <li className="mb-4">
+                <ul className="flex flex-col gap-4">
+                    <li className="">
                         <Link
                             href="/"
-                            className={`block p-2 rounded ${pathname === "/" ? "bg-button font-bold" : "hover:bg-primaryText hover:text-white"
+                            className={`block p-2 rounded ${pathname === "/" ? "bg-secondary text-primary font-bold" : "bg-button font-normal hover:text-primary  hover:bg-secondary"
                                 }`}
                         >
                             Home
@@ -23,7 +23,7 @@ export default function SideBar() {
                     <li>
                         <Link
                             href="/image"
-                            className={`block p-2 rounded ${pathname === "/image" ? "bg-button font-bold" : "hover:bg-primaryText hover:text-white"
+                            className={`block p-2 rounded ${pathname === "/image" ? "bg-secondary text-primary font-bold" : "bg-button font-normal hover:text-primary  hover:bg-secondary"
                                 }`}
                         >
                             Image
@@ -32,7 +32,7 @@ export default function SideBar() {
                     <li>
                         <Link
                             href="/metadata"
-                            className={`block p-2 rounded ${pathname === "/metadata" ? "bg-button font-bold" : "hover:bg-primaryText hover:text-white"
+                            className={`block p-2 rounded ${pathname === "/metadata" ? "bg-secondary text-primary font-bold" : "bg-button font-normal hover:text-primary  hover:bg-secondary"
                                 }`}
                         >
                             Patient Metadata
@@ -41,14 +41,14 @@ export default function SideBar() {
                     <li>
                         <Link
                             href="/prediction"
-                            className={`block p-2 rounded ${pathname === "/prediction" ? "bg-button" : "hover:bg-primaryText hover:text-white"
+                            className={`block p-2 rounded ${pathname === "/prediction" ? "bg-secondary text-primary font-bold" : "bg-button font-normal hover:text-primary hover:bg-secondary"
                                 }`}
                         >
-                            Image
+                            Prediction
                         </Link>
                     </li>
                 </ul>
-            </nav>
-        </div>
+            </nav >
+        </div >
     );
 }

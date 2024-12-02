@@ -1,16 +1,28 @@
-import SideBar from "./Components/SideBar";
+"use client";
+import { useImageContext } from "./contexts/ImageContext";
+
 
 export default function Home() {
+
+  const { image } = useImageContext();
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col h-screen">
       {/* Top Section: Image and Metadata */}
-      <div className="flex flex-1 flex-row h-1/2">
+      <div className="h-1/2 flex-row flex ">
         {/* Image Summary */}
-        <div className="flex-1 bg-button flex items-center justify-center p-4">
-          <p>Image</p>
+        <div className="flex-1 bg-black flex items-center justify-center p-4 w-1/2">
+          {image ? (
+            <img
+              src={URL.createObjectURL(image)}
+              alt="Uploaded"
+              className="max-h-full max-w-full object-contain"
+            />
+          ) : (
+            <p className="text-white">No Image Uploaded</p>
+          )}
         </div>
         {/* Metadata Summary */}
-        <div className="flex-1 bg-button flex items-center justify-center p-4">
+        <div className="flex-1 bg-button flex items-center justify-center p-4 w-1/2">
           <p>Metadata</p>
         </div>
       </div>
@@ -18,6 +30,7 @@ export default function Home() {
       <div className="flex h-1/2 bg-button items-center justify-center p-4">
         <p>Prediction</p>
       </div>
+
     </div>
   );
 }
