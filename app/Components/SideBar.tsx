@@ -7,7 +7,7 @@ export default function SideBar() {
     const pathname = usePathname();
 
     return (
-        <div className="w-64 bg-primary text-primaryText h-screen p-4">
+        <div className="w-64 bg-primary text-primaryText min-h-screen p-4">
             <h1 className="text-xl font-bold mb-6">Combining metadata and image in AI model for diagnostic imaging</h1>
             <nav>
                 <ul className="flex flex-col gap-4">
@@ -22,7 +22,7 @@ export default function SideBar() {
                     </li>
                     <li>
                         <Link
-                            href="/image"
+                            href="/imageSection"
                             className={`block p-2 rounded ${pathname === "/image" ? "bg-secondary text-primary font-bold" : "bg-button font-normal hover:text-primary  hover:bg-secondary"
                                 }`}
                         >
@@ -31,7 +31,7 @@ export default function SideBar() {
                     </li>
                     <li>
                         <Link
-                            href="/metadata"
+                            href="/metadataSection"
                             className={`block p-2 rounded ${pathname === "/metadata" ? "bg-secondary text-primary font-bold" : "bg-button font-normal hover:text-primary  hover:bg-secondary"
                                 }`}
                         >

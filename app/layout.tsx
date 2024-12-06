@@ -19,7 +19,7 @@ export default function RootLayout({
         {/* Context Providers */}
         <ImageProvider>
           <MetadataProvider>
-            <div className="flex h-screen">
+            <div className="flex h-full">
               {/* Sidebar */}
               <SideBar />
 

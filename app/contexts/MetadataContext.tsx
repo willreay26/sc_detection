@@ -61,7 +61,7 @@ export const MetadataProvider = ({ children }: { children: ReactNode }) => {
 };
 
 // Hook to use MetadataContext
-export const useMetadata = (): MetadataContextProps => {
+export const useMetadataContext = (): MetadataContextProps => {
     const context = useContext(MetadataContext);
     if (!context) {
         throw new Error("useMetadata must be used within a MetadataProvider");
