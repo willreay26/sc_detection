@@ -1,22 +1,22 @@
-import SideBar from "./Components/SideBar";
+"use client";
+
+import ImageDisplay from "./Components/ImageDisplay";
+import MetadataDisplay from "./Components/MetadataDisplay";
 
 export default function Home() {
+
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col max-h-screen gap-4 ">
       {/* Top Section: Image and Metadata */}
-      <div className="flex flex-1 flex-row h-1/2">
-        {/* Image Summary */}
-        <div className="flex-1 bg-button flex items-center justify-center p-4">
-          <p>Image</p>
-        </div>
-        {/* Metadata Summary */}
-        <div className="flex-1 bg-button flex items-center justify-center p-4">
-          <p>Metadata</p>
-        </div>
+      <div className="flex flex-col md:flex-row  ">
+        {/* Image Section */}
+        <ImageDisplay />
+        {/* Metadata Section */}
+        <MetadataDisplay />
       </div>
       {/* Bottom Section: Prediction Summary */}
-      <div className="flex h-1/2 bg-button items-center justify-center p-4">
-        <p>Prediction</p>
+      <div className="flex h-1/2 bg-primary p-2 items-center justify-center ">
+        <h2 className="text-xl font-semibold text-gray-700">Prediction Summary</h2>
       </div>
     </div>
   );
