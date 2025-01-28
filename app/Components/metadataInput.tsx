@@ -17,7 +17,7 @@ const MetadataInput = () => {
     };
 
     return (
-        <div className="flex w-full h-full bg-gray-50 text-gray-800 p-6">
+        <div className="flex w-full min-h-screen bg-gray-50 text-gray-800 p-6">
             <div className="bg-white shadow-lg p-6 rounded-lg w-full max-w-4xl mx-auto">
                 <h2 className="text-xl font-semibold text-center mb-4 text-gray-700">
                     Enter Patient Metadata

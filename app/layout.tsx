@@ -24,7 +24,7 @@ export default function RootLayout({
               <SideBar />
 
               {/* Main Content */}
-              <main className="flex-1">{children}</main>
+              <main className=" flex-1  bg-secondary"><div className="p-4">{children}</div></main>
             </div>
           </MetadataProvider>
         </ImageProvider>
