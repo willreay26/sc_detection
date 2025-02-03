@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useImageContext } from "../contexts/ImageContext";
 import * as tf from "@tensorflow/tfjs";
 
+import { Button } from "@/components/ui/button";
+
 export default function ImageUpload() {
     const { setImage } = useImageContext();
     const [preview, setPreview] = useState<string | null>(null);
@@ -72,29 +74,29 @@ export default function ImageUpload() {
     };
 
     return (
-        <div className="p-4">
-            <h1 className="text-xl font-bold mb-4 text-primaryText">Upload an Image</h1>
+        <div className="p-4 w-full flex-row justify-start items-start">
+            <h1 className="text-xl font-bold mb-4 ">Upload an Image</h1>
             <input
                 type="file"
                 accept="image/*"
                 onChange={handleFileChange}
-                className="mb-4 text-primaryText"
+                className="mb-4 flex flex-row "
             />
             {preview && (
-                <div className="mb-4">
+                <div className="mb-4 gap-2">
                     <img src={preview} alt="Preview" className="w-32 h-32 object-cover" />
-                    <button
+                    <Button
                         onClick={predict}
-                        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                        className="mt-4 px-4 py-2  rounded "
                     >
                         Predict
-                    </button>
+                    </Button>
                 </div>
             )}
             {predictionResult && (
-                <div className="mt-4">
-                    <h2 className="text-lg font-bold text-primaryText">Prediction Result</h2>
-                    <p className="text-primaryText">
+                <div className=" flex flex-col ">
+                    <h2 className="text-lg font-bold mb-2 ">Prediction Result</h2>
+                    <p className="font-light">
                         Predicted class: {predictionResult.class} <br />
                         Confidence: {predictionResult.confidence}%
                     </p>
