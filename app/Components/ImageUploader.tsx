@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useImageContext } from "../contexts/ImageContext";
-import * as tf from "@tensorflow/tfjs";
+import { predictWithModel } from "../services/tensorflowService";
 
 import { Button } from "@/components/ui/button";
 
@@ -22,54 +22,17 @@ export default function ImageUpload() {
         }
     };
 
-    const processImage = async (imageFile: File) => {
-        const img = new Image();
-        img.src = URL.createObjectURL(imageFile);
-
-        // Wait for the image to load
-        await new Promise((resolve) => (img.onload = resolve));
-
-        // Convert image to tensor
-        return tf.browser.fromPixels(img)
-            .resizeNearestNeighbor([128, 128]) // Resize to [128, 128] to match the model
-            .toFloat()
-            .div(255.0) // Normalize pixel values to [0, 1]
-            .expandDims(0); // Add batch dimension
-    };
-
     const predict = async () => {
         if (!preview) {
             console.error("No image available for prediction.");
             return;
         }
 
-        const imageFile = await fetch(preview)
-            .then((res) => res.blob())
-            .then((blob) => new File([blob], "uploaded_image.jpg"));
-        const processedImage = await processImage(imageFile);
-
         try {
-            const model = await tf.loadLayersModel("/models/model.json"); // Adjust path to your model
-            const predictionTensor = model.predict(processedImage) as tf.Tensor;
-            const predictionArray = Array.from(predictionTensor.dataSync());
-
-            if (predictionArray.length > 0) {
-                // Define class labels for HAM10000
-                const classLabels = ["akiec", "bcc", "bkl", "df", "mel", "nv", "vasc"];
-                const predictedIndex = predictionArray.indexOf(Math.max(...predictionArray));
-                const predictedClass = classLabels[predictedIndex];
-                const confidence = Math.max(...predictionArray) * 100;
-
-                // Set prediction result
-                setPredictionResult({
-                    class: predictedClass,
-                    confidence: confidence.toFixed(2),
-                });
-            } else {
-                console.error("Prediction array is empty.");
-            }
+            const result = await predictWithModel(preview);
+            setPredictionResult(result);
         } catch (error) {
-            console.error("Error loading or using the model:", error);
+            console.error("Error during prediction:", error);
         }
     };
 

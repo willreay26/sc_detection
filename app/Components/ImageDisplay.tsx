@@ -13,7 +13,7 @@ const ImageDisplayer = () => {
             {image ? (
                 <div className="w-1/2 ">
                     <AspectRatio className="object-fill flex  justify-center" ratio={16 / 9}>
-                        <Image src={URL.createObjectURL(image)} className="" width={450} height={300} alt="Image" />
+                        <Image src={URL.createObjectURL(image)} className="object-cover" width={450} height={300} alt="Image" />
                         {/* <h1 className="flex p-2">{image.name}</h1> */}
                     </AspectRatio>
 
