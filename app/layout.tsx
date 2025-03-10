@@ -1,7 +1,11 @@
 import "./globals.css";
-import SideBar from "./Components/SideBar";
+
 import { ImageProvider } from "./contexts/ImageContext";
 import { MetadataProvider } from "./contexts/MetadataContext";
+import { ThemeProvider } from "@/components/ui/theme-provider";
+
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/ui/app-sidebar";
 
 export default function RootLayout({
   children,
@@ -16,18 +20,32 @@ export default function RootLayout({
         <title>Skin Cancer Analysis App</title>
       </head>
       <body>
-        {/* Context Providers */}
-        <ImageProvider>
-          <MetadataProvider>
-            <div className="flex h-full">
-              {/* Sidebar */}
-              <SideBar />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {/* Context Providers */}
+          <ImageProvider>
+            <MetadataProvider>
+              <SidebarProvider>
+                <div className="flex w-full h-full">
+                  {/* Sidebar */}
+                  <AppSidebar />
 
-              {/* Main Content */}
-              <main className=" flex-1  bg-secondary"><div className="p-4">{children}</div></main>
-            </div>
-          </MetadataProvider>
-        </ImageProvider>
+                  {/* Main Content */}
+                  <main className="w-full bg-primary-background ">
+
+                    <SidebarTrigger className="m-2" />
+                    {children}
+
+                  </main>
+                </div>
+              </SidebarProvider>
+            </MetadataProvider>
+          </ImageProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

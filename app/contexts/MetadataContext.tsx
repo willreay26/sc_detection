@@ -6,14 +6,14 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 interface ImageMetadataProps {
     age: number | null; // Age of the patient
     gender: "Male" | "Female" | "Other" | null; // Gender of the patient
-    ethnicity: string | null; // Patient's ethnicity or background
+
     lesionLocation: string | null; // Location of the lesion (e.g., "Arm", "Face", etc.)
-    lesionSize: number | null; // Size of the lesion in millimeters
+
     lesionDuration: string | null; // Duration the lesion has been present (e.g., "2 weeks", "6 months")
     patientHistory: string | null; // Any relevant medical history
     familyHistory: string | null; // Family history of skin cancer or related conditions
-    UVExposure: "Low" | "Moderate" | "High" | null; // Patient's exposure to UV radiation
-    isSmoking: boolean; // Smoking habits
+
+
     imageID: string | null; // Unique identifier for the image
     diagnosis: string | null; // If known, the diagnosis for the image
 }
@@ -33,14 +33,14 @@ export const MetadataProvider = ({ children }: { children: ReactNode }) => {
     const [metadata, setMetadataState] = useState<ImageMetadataProps>({
         age: null,
         gender: null,
-        ethnicity: null,
+
         lesionLocation: null,
-        lesionSize: null,
+
         lesionDuration: null,
         patientHistory: null,
         familyHistory: null,
-        UVExposure: null,
-        isSmoking: false,
+
+
         imageID: null,
         diagnosis: null,
     });

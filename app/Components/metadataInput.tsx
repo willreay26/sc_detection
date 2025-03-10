@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { Button } from "@/components/ui/button";
 import { useMetadataContext } from "../contexts/MetadataContext";
 
 const MetadataInput = () => {
@@ -17,9 +18,9 @@ const MetadataInput = () => {
     };
 
     return (
-        <div className="flex w-full min-h-screen bg-gray-50 text-gray-800 p-6">
-            <div className="bg-white shadow-lg p-6 rounded-lg w-full max-w-4xl mx-auto">
-                <h2 className="text-xl font-semibold text-center mb-4 text-gray-700">
+        <div className="flex w-full min-h-screen  p-6">
+            <div className=" shadow-lg p-6 rounded-lg w-full max-w-4xl mx-auto">
+                <h2 className="text-xl font-semibold text-center mb-4 ">
                     Enter Patient Metadata
                 </h2>
                 {/* Form Grid */}
@@ -27,18 +28,18 @@ const MetadataInput = () => {
                     {[
                         { label: "Age", name: "age", type: "number" },
                         { label: "Gender", name: "gender", type: "text" },
-                        { label: "Ethnicity", name: "ethnicity", type: "text" },
+
                         { label: "Lesion Location", name: "lesionLocation", type: "text" },
-                        { label: "Lesion Size (mm)", name: "lesionSize", type: "number" },
+
                         { label: "Lesion Duration", name: "lesionDuration", type: "text" },
                         { label: "Patient History", name: "patientHistory", type: "text" },
                         { label: "Family History", name: "familyHistory", type: "text" },
-                        { label: "UV Exposure", name: "UVExposure", type: "text" },
+
                     ].map(({ label, name, type }) => (
                         <div key={name} className="flex flex-col">
                             <label
                                 htmlFor={name}
-                                className="text-sm font-medium text-gray-600 mb-1"
+                                className="text-sm font-medium  mb-1"
                             >
                                 {label}
                             </label>
@@ -48,17 +49,17 @@ const MetadataInput = () => {
                                 type={type}
                                 value={(metadata as any)[name] || ""}
                                 onChange={handleInputChange}
-                                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                                className="px-4 py-2 border  rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
                             />
                         </div>
                     ))}
                 </div>
-                <button
-                    className="mt-6 bg-blue-500 text-white py-2 w-full rounded-lg hover:bg-blue-600 transition"
+                <Button
+                    className="mt-6   py-2 w-full rounded-lg  transition"
                     type="submit"
                 >
                     Save Metadata
-                </button>
+                </Button>
             </div>
         </div>
     );
