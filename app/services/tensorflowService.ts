@@ -1,5 +1,7 @@
 import * as tf from "@tensorflow/tfjs";
+import { predictImageWithAPI } from "./apiService";
 
+// This function is kept for potential future use or reference
 export const processImage = async (imageFile: File) => {
     const img = new Image();
     img.src = URL.createObjectURL(imageFile);
@@ -9,43 +11,34 @@ export const processImage = async (imageFile: File) => {
 
     // Convert image to tensor
     return tf.browser.fromPixels(img)
-        .resizeNearestNeighbor([128, 128]) // Resize to [128, 128] to match the model
+        .resizeNearestNeighbor([128, 128]) 
         .toFloat()
-        .div(255.0) // Normalize pixel values to [0, 1]
-        .expandDims(0); // Add batch dimension
+        .div(255.0) 
+        .expandDims(0); 
 };
 
+// Redirects to API prediction instead of using local model
 export const predictWithModel = async (imageUrl: string) => {
     if (!imageUrl) {
         throw new Error("No image available for prediction.");
     }
 
-    const imageFile = await fetch(imageUrl)
-        .then((res) => res.blob())
-        .then((blob) => new File([blob], "uploaded_image.jpg"));
-    const processedImage = await processImage(imageFile);
-
     try {
-        const model = await tf.loadLayersModel("/models/model.json");
-        const predictionTensor = model.predict(processedImage) as tf.Tensor;
-        const predictionArray = Array.from(predictionTensor.dataSync());
-
-        if (predictionArray.length > 0) {
-            // Define class labels for HAM10000
-            const classLabels = ["akiec", "bcc", "bkl", "df", "mel", "nv", "vasc"];
-            const predictedIndex = predictionArray.indexOf(Math.max(...predictionArray));
-            const predictedClass = classLabels[predictedIndex];
-            const confidence = Math.max(...predictionArray) * 100;
-
-            return {
-                class: predictedClass,
-                confidence: confidence.toFixed(2),
-            };
-        } else {
-            throw new Error("Prediction array is empty.");
-        }
+        // Convert the image URL to a File object
+        const imageFile = await fetch(imageUrl)
+            .then((res) => res.blob())
+            .then((blob) => new File([blob], "uploaded_image.jpg"));
+        
+        // Use the API service instead of local model
+        return await predictImageWithAPI(imageFile);
     } catch (error) {
-        console.error("Error loading or using the model:", error);
+        console.error("Error predicting with API:", error);
         throw error;
     }
+};
+
+// Also redirects to API prediction
+export const predictWithResNet50 = async (imageUrl: string) => {
+    // Simply redirect to the same function as above to use the API
+    return predictWithModel(imageUrl);
 };

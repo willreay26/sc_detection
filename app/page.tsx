@@ -1,22 +1,20 @@
 "use client";
 
-import ImageDisplay from "./Components/ImageDisplay";
-import MetadataDisplay from "./Components/MetadataDisplay";
+import CombinedImageSection from "./Components/CombinedImageSection";
+import CombinedMetadataSection from "./Components/CombinedMetadataSection";
+import FusionPredictor from "./Components/FusionPredictor";
 
 export default function Home() {
-
   return (
-    <div className="flex-row  ">
-      {/* Top Section: Image and Metadata */}
-      <div className="flex flex-row w-full  ">
-        {/* Image Section */}
-        <ImageDisplay />
-        {/* Metadata Section */}
-        <MetadataDisplay />
-      </div>
-      {/* Bottom Section: Prediction Summary */}
-      <div className="flex p-2 items-center justify-center ">
-        <h2 className="text-xl font-semibold my-16">Prediction Summary</h2>
+    <div className="flex flex-col p-4">
+      {/* Main Content Section */}
+      <div className="flex flex-col w-full">
+        {/* Combined Image Section */}
+        {/* <CombinedImageSection /> */}
+
+        {/* Combined Metadata Section */}
+        {/* <CombinedMetadataSection /> */}
+        <FusionPredictor />
       </div>
     </div>
   );

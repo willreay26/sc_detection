@@ -1,51 +1,37 @@
-"use client";
+"use client"
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, ReactNode, useState } from "react";
 
-// Define the metadata structure
-interface ImageMetadataProps {
-    age: number | null; // Age of the patient
-    gender: "Male" | "Female" | "Other" | null; // Gender of the patient
-
-    lesionLocation: string | null; // Location of the lesion (e.g., "Arm", "Face", etc.)
-
-    lesionDuration: string | null; // Duration the lesion has been present (e.g., "2 weeks", "6 months")
-    patientHistory: string | null; // Any relevant medical history
-    familyHistory: string | null; // Family history of skin cancer or related conditions
-
-
-    imageID: string | null; // Unique identifier for the image
-    diagnosis: string | null; // If known, the diagnosis for the image
+// Export the interface so it can be imported in other files
+export interface ImageMetadataProps {
+    age?: string;
+    gender?: string;
+    lesionLocation?: string;
+    lesionDuration?: string;
+    patientHistory?: string;
+    familyHistory?: string;
+    diagnosis?: string;
+    [key: string]: string | boolean | undefined;
 }
 
-// Define the context type
-interface MetadataContextProps {
+interface MetadataContextType {
     metadata: ImageMetadataProps;
-    setMetadata: (metadata: Partial<ImageMetadataProps>) => void; // Function to update metadata
+    setMetadata: (newMetadata: Partial<ImageMetadataProps>) => void;
 }
 
-// Create the Metadata Context
-const MetadataContext = createContext<MetadataContextProps | undefined>(undefined);
+const MetadataContext = createContext<MetadataContextType | undefined>(undefined);
 
-// MetadataProvider component
+export const useMetadataContext = () => {
+    const context = useContext(MetadataContext);
+    if (!context) {
+        throw new Error("useMetadataContext must be used within a MetadataProvider");
+    }
+    return context;
+};
+
 export const MetadataProvider = ({ children }: { children: ReactNode }) => {
-    // Define the state for metadata
-    const [metadata, setMetadataState] = useState<ImageMetadataProps>({
-        age: null,
-        gender: null,
+    const [metadata, setMetadataState] = useState<ImageMetadataProps>({});
 
-        lesionLocation: null,
-
-        lesionDuration: null,
-        patientHistory: null,
-        familyHistory: null,
-
-
-        imageID: null,
-        diagnosis: null,
-    });
-
-    // Function to update metadata
     const setMetadata = (newMetadata: Partial<ImageMetadataProps>) => {
         setMetadataState((prevMetadata) => ({
             ...prevMetadata,
@@ -58,13 +44,4 @@ export const MetadataProvider = ({ children }: { children: ReactNode }) => {
             {children}
         </MetadataContext.Provider>
     );
-};
-
-// Hook to use MetadataContext
-export const useMetadataContext = (): MetadataContextProps => {
-    const context = useContext(MetadataContext);
-    if (!context) {
-        throw new Error("useMetadata must be used within a MetadataProvider");
-    }
-    return context;
 };

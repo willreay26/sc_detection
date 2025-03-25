@@ -2,10 +2,10 @@ import "./globals.css";
 
 import { ImageProvider } from "./contexts/ImageContext";
 import { MetadataProvider } from "./contexts/MetadataContext";
-import { ThemeProvider } from "@/components/ui/theme-provider";
+import { ThemeProvider } from "@/app/Components/theme-provider";
 
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/ui/app-sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/app/Components/sidebar"
+import { AppSidebar } from "@/app/Components/app-sidebar";
 
 export default function RootLayout({
   children,
@@ -17,7 +17,7 @@ export default function RootLayout({
       <head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Skin Cancer Analysis App</title>
+        <title>SkinSense - AI</title>
       </head>
       <body>
         <ThemeProvider
@@ -36,10 +36,8 @@ export default function RootLayout({
 
                   {/* Main Content */}
                   <main className="w-full bg-primary-background ">
-
                     <SidebarTrigger className="m-2" />
                     {children}
-
                   </main>
                 </div>
               </SidebarProvider>
