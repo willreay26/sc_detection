@@ -140,3 +140,68 @@ export const checkAPIHealth = async (): Promise<boolean> => {
     return false;
   }
 };
+
+/**
+ * Sends both image and metadata to the Flask API for fusion prediction
+ * @param imageFile The image file to be processed
+ * @param metadata Patient metadata for prediction
+ * @returns Fusion prediction result
+ */
+export const predictWithFusionAPI = async (
+  imageFile: File,
+  metadata: ImageMetadataProps,
+  actualDiagnosis?: string  // Add optional parameter for actual diagnosis
+): Promise<{
+  class: string;
+  fusion_prediction: number;
+  image_probs: number[][];
+  metadata_probs: number[][];
+  final_probs: number[][];
+  actual_diagnosis?: string;  // Add to return type
+  is_correct?: boolean;       // Add to return type
+}> => {
+  try {
+    const formData = new FormData();
+    formData.append('image', imageFile);
+    
+    // Transform the metadata to match the API's expected format
+    const metadataForAPI = {
+      age: metadata.age,
+      sex: metadata.gender?.toLowerCase() === 'male' ? 'male' : 'female',
+      localization: metadata.lesionLocation?.toLowerCase() || 'unknown'
+    };
+    
+    // Add metadata as JSON string
+    formData.append('metadata', JSON.stringify(metadataForAPI));
+    
+    // Add actual diagnosis if provided
+    if (actualDiagnosis) {
+      formData.append('actual_diagnosis', actualDiagnosis);
+    }
+
+    const response = await axios.post(`${API_BASE_URL}/predict_fusion`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    if (response.data) {
+      return {
+        class: response.data.class || "unknown",
+        fusion_prediction: response.data.fusion_prediction,
+        image_probs: response.data.image_probs || [],
+        metadata_probs: response.data.metadata_probs || [],
+        final_probs: response.data.final_probs || [],
+        actual_diagnosis: actualDiagnosis,
+        is_correct: actualDiagnosis ? 
+          response.data.class.toLowerCase() === actualDiagnosis.toLowerCase() : 
+          undefined
+      };
+    }
+    
+    throw new Error('Invalid response from API');
+  } catch (error) {
+    console.error('Error predicting with fusion API:', error);
+    throw error;
+  }
+};

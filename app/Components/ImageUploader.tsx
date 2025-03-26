@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { useImageContext } from "../contexts/ImageContext";
-import { predictImageWithAPI, verifyPredictionWithAPI } from "../services/apiService";
+import { predictImageWithAPI } from "../services/apiService";
 import { Button } from "@/app/Components/button";
 
 export default function ImageUpload() {
@@ -11,13 +11,10 @@ export default function ImageUpload() {
     const [predictionResult, setPredictionResult] = useState<{
         class: string;
         confidence: string;
-        actual_diagnosis?: string;
-        is_correct?: boolean;
     } | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [modelType, setModelType] = useState<"custom" | "resnet50">("custom");
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const [actualDiagnosis, setActualDiagnosis] = useState<string>("");
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -41,14 +38,8 @@ export default function ImageUpload() {
 
         setIsLoading(true);
         try {
-            let result;
-            // If actual diagnosis is provided, use verification
-            if (actualDiagnosis.trim()) {
-                result = await verifyPredictionWithAPI(image, actualDiagnosis);
-            } else {
-                // Otherwise just get the prediction
-                result = await predictImageWithAPI(image);
-            }
+            // Just get the prediction
+            const result = await predictImageWithAPI(image);
             setPredictionResult(result);
         } catch (error) {
             console.error("Error during prediction:", error);
@@ -106,21 +97,7 @@ export default function ImageUpload() {
                             </button>
                         </div>
 
-                        {/* Actual diagnosis input */}
-                        <div className="mt-4 mb-4">
-                            <label className="block text-sm font-medium mb-1 text-foreground">
-                                Actual Diagnosis (optional)
-                            </label>
-                            <input
-                                type="text"
-                                value={actualDiagnosis}
-                                onChange={(e) => setActualDiagnosis(e.target.value)}
-                                className="w-full p-2 border border-border rounded-lg bg-card text-foreground"
-                                placeholder="Enter known diagnosis if available"
-                            />
-                        </div>
-
-                        <div className="mt-2 flex items-center justify-end">
+                        <div className="mt-6 flex items-center justify-end">
                             <Button
                                 onClick={predict}
                                 className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90"
@@ -145,22 +122,6 @@ export default function ImageUpload() {
                                         <span className="font-medium text-foreground">Confidence:</span>
                                         <span className="font-semibold text-primary">{predictionResult.confidence}%</span>
                                     </div>
-
-                                    {/* Display verification result if actual diagnosis was provided */}
-                                    {predictionResult.actual_diagnosis && (
-                                        <>
-                                            <div className="flex justify-between items-center">
-                                                <span className="font-medium text-foreground">Actual Diagnosis:</span>
-                                                <span className="font-semibold">{predictionResult.actual_diagnosis}</span>
-                                            </div>
-                                            <div className="flex justify-between items-center">
-                                                <span className="font-medium text-foreground">Result:</span>
-                                                <span className={predictionResult.is_correct ? "font-semibold text-green-600" : "font-semibold text-red-600"}>
-                                                    {predictionResult.is_correct ? "✓ Correct" : "✗ Incorrect"}
-                                                </span>
-                                            </div>
-                                        </>
-                                    )}
 
                                     <div className="text-sm text-muted-foreground mt-auto pt-4">
                                         Model used: ResNet50 API
